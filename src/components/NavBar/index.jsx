@@ -1,8 +1,11 @@
 'use client';
 import React from 'react';
+import { useRouter } from "next/navigation";
 import './css.css'; 
+import NextLink from "next/link";
 
 const NavBar = () => {
+    const router = useRouter();
     return (
       <div id="nav-bar">
         <input id="nav-toggle" type="checkbox" />
@@ -18,29 +21,35 @@ const NavBar = () => {
   
         <div id="nav-content">
           <div className="nav-button">
-            <a href="home_page.html">
-              <span>Home Page</span>
-            </a>
+            <NextLink href={"/"}>
+              Home Page
+            </NextLink>
           </div>
           <div className="nav-button">
-            <a href="customer.html">
-            <span>Customer</span>
-            </a>
+            <NextLink href={"/customer"}>
+              Customer
+            </NextLink>
+            
           </div>
           <div className="nav-button">
-            <a href="supplier.html">
-            <span>Supplier</span>
-            </a>
+            <NextLink href={"/supplier"}>
+            Supplier
+            </NextLink>
           </div>
           <div className="nav-button">
-            <a href="invoice.html">
-              <span>Invoice</span>
-            </a>
+            <NextLink href={"/invoice"}>
+            Invoice
+            </NextLink>
           </div>
           <div className="nav-button">
-            <a href="supplier.html">
-              <span>Items</span>
-            </a>
+            <NextLink href={"/item"}>
+            Items
+            </NextLink>
+          </div>
+          <div className="nav-button">
+            <NextLink href={"/bot"}>
+            Chat Bot
+            </NextLink>
           </div>
         </div>
   
