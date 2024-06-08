@@ -16,7 +16,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     
     const { msg } = await req.json();
-    const messages = [{ content: msg }];
+    
 
     const connection = await mysql.createConnection(DBConfig);
 
@@ -34,6 +34,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
         item it
       LEFT JOIN 
         invoice i ON it.invoiceNumber = i.invoiceNumber
+      GROUP BY
+        it.description,
+        it.quantity,
+        it.totalItemPrice,
+        it.unitPrice
     `);
 
     connection.end();
@@ -49,7 +54,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
       'unitPrice'
     ];
       
-    const giveAImsg = `${queryInvoice} this data about ${element} answer the question ${msg}`
+    console.log(queryInvoice);
+
+    const giveAImsg = `${queryInvoice} this data about ${element} base on the provided data analysis and answer the question generate a report: ${msg}`
+
+    const messages = [{ content: giveAImsg }];
 
     const result : any = await client.generateMessage({
       model: MODEL_NAME,
