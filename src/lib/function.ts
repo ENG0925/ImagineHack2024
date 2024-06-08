@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const OCRscan = async (image: string) => {
+export const OCRscan = async () => {
     try {
-        const response = await axios.post("http://localhost:3000/api/invoiceOCR", {image})
+        const response = await axios.get("/api/invoiceOCR")
         return response;
     } catch (err) {
-        console.error(err);
+        console.log(err);
     }
 };
