@@ -322,8 +322,9 @@ label[for=nav-toggle] {
 
 label[for=nav-footer-toggle] {
   position: absolute;
-  right: 0;
-  width: 3rem;
+  right: 7px;
+  width: 25px;
+  top: 2px;
   height: 100%;
   display: flex;
   align-items: center;
