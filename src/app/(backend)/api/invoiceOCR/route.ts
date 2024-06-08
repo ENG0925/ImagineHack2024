@@ -27,8 +27,6 @@ interface SupplierRequest {
     supplierEmail: string;
 }
 
-
-
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
         const { image } = await req.json();

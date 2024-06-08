@@ -17,46 +17,30 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
     const { msg } = await req.json();
     
-
     const connection = await mysql.createConnection(DBConfig);
 
-    const [queryInvoice] = await connection.execute(`
-      SELECT 
-        i.invoiceNumber,
-        i.purchaseDate,
-        i.totalAmount,
-        i.totalTax,
-        it.description,
-        it.quantity,
-        it.totalItemPrice,
-        it.unitPrice
-      FROM 
-        item it
-      LEFT JOIN 
-        invoice i ON it.invoiceNumber = i.invoiceNumber
-      GROUP BY
-        it.description,
-        it.quantity,
-        it.totalItemPrice,
-        it.unitPrice
-    `);
+    const [queryInvoice] = await connection.execute(`SELECT * FROM item`);
+
+    const [queryItem] = await connection.execute(`SELECT * FROM item`);
 
     connection.end();
 
     const element: string[] = [
-      'invoiceNumber',
-      'purchaseDate',
-      'totalAmount',
-      'totalTax',
-      'description',
-      'quantity',
-      'totalItemPrice',
-      'unitPrice'
+      'Invoice:id',
+      'Invoice:description',
+      'Invoice:quantity',
+      'Invoice:totalItemPrice',
+      'Invoice:unitPrice',
+      'Invoice:invoiceNumber:',
+      'Item:id',
+      'Item:description',
+      'Item:quantity',
+      'Item:totalItemPrice',
+      'Item:unitPrice',
+      'Item:invoiceNumber'
     ];
       
-    console.log(queryInvoice);
-
-    const giveAImsg = `${queryInvoice} this data about ${element} base on the provided data analysis and answer the question generate a report: ${msg}`
+    const giveAImsg = `${queryInvoice} and ${queryItem} this data about ${element} base on the provided data analysis and answer the question generate a report: ${msg}`
 
     const messages = [{ content: giveAImsg }];
 
@@ -65,11 +49,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
       prompt: { messages },
     });
   
-    console.log("Palm:\n\n", result[0].candidates[0].content, "\n\n");
+    
+    const response = result[0].candidates[0].content;
             
     return NextResponse.json({ 
         success: true, 
-        message: 'successfully OCR the image'
+        message: 'successfully OCR the image',
+        data: response
     });
   } catch (err) {
     return NextResponse.json({ 

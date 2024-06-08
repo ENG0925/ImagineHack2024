@@ -19,9 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    
-      <body className={inter.className}>{children}
-      <NavBar/> 
+      <body className={inter.className}>
+        <div>
+          <NavBar /> 
+        </div>
+        <div>
+          {children}
+        </div>
+        
       </body>
       <ChatBot/>
     </html>

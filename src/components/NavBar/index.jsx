@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import './css.css'; 
-import icon from '@/image/icon.png'
 
 const NavBar = () => {
     return (

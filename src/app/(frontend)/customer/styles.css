@@ -1,0 +1,75 @@
+body {
+    display: flex;
+    flex-direction: column; /* Arrange elements in a column */
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.header {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Add space between the header and hr */
+}
+
+h2 {
+    margin: 0;
+    text-align: left;
+}
+
+a.button-link {
+    text-decoration: none;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button .plus-icon {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+hr {
+    width: 100%;
+    max-width: 800px;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
