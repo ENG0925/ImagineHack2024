@@ -15,8 +15,7 @@ export default function Home() {
 
   return (
     <div>
-      hi
-      <button onClick={handleOCR}>Click me</button> 
+      
     </div>
   );
 }
