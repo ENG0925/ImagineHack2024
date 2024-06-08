@@ -1,31 +1,55 @@
 'use client';
 
 import { useState } from 'react';
+import axios from 'axios';
 
 const UploadImage = () => {
-    const [selectedFile, setSelectedFile] = useState<any>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [fileCategory, setFileCategory] = useState("Selected file type will be displayed here.");
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const [confirmationVisible, setConfirmationVisible] = useState(false);
 
-    const handleFileChange = (event: any) => {
-        const file = event.target.files[0];
+    const allowedFileTypes = ["image/jpeg", "image/png", "application/pdf"];
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files ? event.target.files[0] : null;
         if (file) {
-            setSelectedFile(file);
-            setFileCategory(file.type);
-            setErrorMessage("");
+            if (allowedFileTypes.includes(file.type)) {
+                setSelectedFile(file);
+                setFileCategory(file.type);
+                setErrorMessage("");
+            } else {
+                setSelectedFile(null);
+                setFileCategory("Selected file type will be displayed here.");
+                setErrorMessage("Invalid file type. Only JPG, PDF, and PNG files are allowed.");
+            }
         } else {
+            setSelectedFile(null);
             setFileCategory("Selected file type will be displayed here.");
             setErrorMessage("No file selected");
         }
     };
 
-    const handleUploadClick = () => {
+    const handleUploadClick = async () => {
         if (selectedFile) {
-            setErrorMessage("");
-            setSuccessMessage("");
-            setConfirmationVisible(true);
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            try {
+                const response = await axios.post('http://localhost:5000/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                if (response.status === 200) {
+                    setSuccessMessage("File uploaded successfully!");
+                    setErrorMessage("");
+                }
+            } catch (error) {
+                setErrorMessage("File upload failed. Please try again.");
+                setSuccessMessage("");
+            }
         } else {
             setErrorMessage("No file selected");
         }
@@ -36,17 +60,6 @@ const UploadImage = () => {
         setFileCategory("Selected file type will be displayed here.");
         setErrorMessage("");
         setSuccessMessage("");
-    };
-
-    const handleConfirmUpload = () => {
-        setSuccessMessage("File uploaded successfully!");
-        setConfirmationVisible(false);
-        setSelectedFile(null);
-        setFileCategory("Selected file type will be displayed here.");
-    };
-
-    const handleCancelUpload = () => {
-        setConfirmationVisible(false);
     };
 
     return (
@@ -61,7 +74,6 @@ const UploadImage = () => {
             )}
             {successMessage && (
                 <div id="successMessage" className="message">
-                    
                     {successMessage}
                 </div>
             )}
@@ -69,44 +81,6 @@ const UploadImage = () => {
                 <button id="cancelButton" onClick={handleCancelClick}>Cancel</button>
                 <button id="uploadButton" onClick={handleUploadClick}>Upload</button>
             </div>
-
-            {confirmationVisible && (
-                <div id="confirmationModal" className="modal">
-                    <div className="modal-content">
-                        <p id="modalText">Are you sure you want to upload this file?</p>
-                        <table id="fileDetailsTable">
-                            <tr>
-                                <th>Title</th>
-                                <th>Pricing</th>
-                                <th>Code</th>
-                            </tr>
-                            <tr>
-                                <td id="fileTitle">{selectedFile ? selectedFile.name : ''}</td>
-                                <td id="filePricing">N/A</td>
-                                <td id="fileCode">N/A</td>
-                            </tr>
-                        </table>
-                        <table>
-                            <tr>
-                                <th>Supplier Name</th>
-                                <th>Supplier Address</th>
-                                <th>Supplier Phone Number</th>
-                                <th>Supplier Email</th>
-                            </tr>
-                            <tr>
-                                <td>Supplier One</td>
-                                <td>1001 Supplier Blvd</td>
-                                <td>123-456-7890</td>
-                                <td>suppier1@example.com</td>
-                            </tr>
-                        </table>
-                        <div className="modal-buttons">
-                            <button id="cancelUploadButton" onClick={handleCancelUpload}>Cancel</button>
-                            <button id="confirmUploadButton" onClick={handleConfirmUpload}>Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

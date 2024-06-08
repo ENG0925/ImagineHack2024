@@ -2,6 +2,7 @@
 
 import { getInvoice } from "@/lib/function";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Invocie {
     invoiceNumber: string;
@@ -13,6 +14,7 @@ interface Invocie {
 }
 
 const Page = () => {
+    const router = useRouter();
     const [data, setData] = useState<Invocie[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +32,7 @@ const Page = () => {
     }, []);
 
     const handleClicked = () => {
-        console.log('clicked');
+        router.push('/invoice/add');
     }
     
     return (

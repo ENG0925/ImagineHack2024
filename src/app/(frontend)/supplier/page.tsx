@@ -36,7 +36,6 @@ const Page = () => {
 
     return (
         <div>
-            <UploadImage />
             <div className="header">
                 <h2>Supplier List</h2>
                 <button onClick={handleClicked}>
