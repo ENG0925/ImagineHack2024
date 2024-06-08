@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<head>
+    <title>File Type Categorizer</title>
+    <link rel="stylesheet" href="Select_File.css">
+</head>
+<body>
+    <div class="container">
+        <h1>File Type Categorizer</h1>
+        <input type="file" id="fileInput">
+        <p id="fileCategory">Selected file type will be displayed here.</p>
+        <div id="errorMessage" class="message">
+            <svg class="error-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            No file selected
+        </div>
+        <div id="successMessage" class="message">
+            <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
+            </svg>
+            File uploaded successfully!
+        </div>
+        <div id="fileNotAcceptedMessage" class="message">
+            <svg class="error-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            File not accepted
+        </div>
+        <img id="specialImage" src="Invoice.jpg" alt="Special Image">
+        <div class="button-container">
+            <button id="cancelButton">Cancel</button>
+            <button id="uploadButton">Upload</button>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <p id="modalText">Are you sure you want to upload this file?</p>
+        <table id="fileDetailsTable">
+            <tr>
+                <td>File Name:</td>
+                <td id="fileName"></td>
+            </tr>
+            <tr>
+                <td>File Type:</td>
+                <td id="fileType"></td>
+            </tr>
+        </table>
+        <div class="modal-buttons">
+            <button id="cancelUploadButton">Cancel</button>
+            <button id="confirmUploadButton">Confirm</button>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
+            const specialImage = document.getElementById('specialImage');
+
+            if (file) {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                fileNotAcceptedMessage.style.display = 'none';
+                const fileType = categorizeFileType(file);
+                document.getElementById('fileCategory').textContent = `Selected file type: ${fileType}`;
+
+                if (fileType === 'JPEG Image' || fileType === 'PNG Image') {
+                    specialImage.style.display = 'block';
+                } else {
+                    specialImage.style.display = 'none';
+                }
+
+                if (fileType === 'Not accepted') {
+                    displayFileNotAcceptedMessage(fileNotAcceptedMessage);
+                }
+            } else {
+                specialImage.style.display = 'none';
+            }
+        });
+
+        document.getElementById('uploadButton').addEventListener('click', function() {
+    const fileInput = document.getElementById('fileInput');
+    const errorMessage = document.getElementById('errorMessage');
+    const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
+    const fileType = fileInput.files.length ? categorizeFileType(fileInput.files[0]) : '';
+
+    if (!fileInput.files.length) {
+        displayErrorMessage(errorMessage);
+    } else if (fileType === 'Not accepted') {
+        displayFileNotAcceptedMessage(fileNotAcceptedMessage);
+    } else {
+        // Populate file details in the modal
+        populateFileDetails(fileInput.files[0]);
+
+        document.getElementById('confirmationModal').style.display = 'flex'; // Show modal
+    }
+});
+
+function populateFileDetails(file) {
+    const fileName = file.name;
+    const fileType = categorizeFileType(file);
+
+    document.getElementById('fileName').textContent = fileName;
+    document.getElementById('fileType').textContent = fileType;
+}
+
+
+        document.getElementById('confirmUploadButton').addEventListener('click', function() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            displaySuccessMessage();
+        });
+
+        document.getElementById('cancelUploadButton').addEventListener('click', function() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        });
+
+        document.getElementById('cancelButton').addEventListener('click', function() {
+            const fileInput = document.getElementById('fileInput');
+            const fileCategory = document.getElementById('fileCategory');
+            const specialImage = document.getElementById('specialImage');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
+
+            fileInput.value = ''; // Clear file input
+            fileCategory.textContent = 'Selected file type will be displayed here.'; // Reset file category display
+            specialImage.style.display = 'none'; // Hide special image
+            errorMessage.style.display = 'none'; // Hide error message
+            successMessage.style.display = 'none'; // Hide success message
+            fileNotAcceptedMessage.style.display = 'none'; // Hide file not accepted message
+        });
+
+        function displayErrorMessage(errorMessage) {
+            errorMessage.style.display = 'flex'; // Show error message
+            errorMessage.classList.add('shake');
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+                errorMessage.classList.remove('shake');
+            }, 2000);
+        }
+
+        function displaySuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'flex'; // Show success message
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 2000);
+        }
+
+        function displayFileNotAcceptedMessage(fileNotAcceptedMessage) {
+            fileNotAcceptedMessage.style.display = 'flex'; // Show file not accepted message
+            fileNotAcceptedMessage.classList.add('shake');
+            setTimeout(() => {
+                fileNotAcceptedMessage.style.display = 'none';
+                fileNotAcceptedMessage.classList.remove('shake');
+            }, 2000);
+        }
+
+        function categorizeFileType(file) {
+            const fileName = file.name;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+
+            if (fileExtension === 'jpg' || fileExtension === 'jpeg') {
+                return 'JPEG Image';
+            } else if (fileExtension === 'pdf') {
+                return 'PDF Document';
+            } else if (fileExtension === 'png') {
+                return 'PNG Image';
+            } else {
+                return 'Not accepted';
+            }
+        }
+
+        function fetchPricingAndCode() {
+            // Simulate fetching data from backend
+            const pricing = 'RM 100';
+            const code = 'ABC123';
+
+            document.getElementById('pricing').textContent = `Pricing: ${pricing}`;
+            document.getElementById('code').textContent = `Code: ${code}`;
+        }
+
+        window.onload = function() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('fileNotAcceptedMessage').style.display = 'none';
+        };
+    </script>
+</body>
+
+</html>
