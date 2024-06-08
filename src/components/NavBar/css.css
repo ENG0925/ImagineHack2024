@@ -332,7 +332,7 @@ label[for=nav-footer-toggle] {
 }
 
 #nav-footer-content {
-  margin: 0 16px 16px 16px;
+  margin: 12px 12px 12px;
   border-top: solid 1px var(--navbar-light-secondary);
   padding: 16px 0;
   color: var(--navbar-light-secondary);

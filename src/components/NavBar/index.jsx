@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import './css.css'; 
-
+import icon from '@/image/icon.png'
 
 const NavBar = () => {
     return (
@@ -30,7 +30,7 @@ const NavBar = () => {
           </div>
           <div className="nav-button">
             <a href="supplier.html">
-             <span>Supplier</span>
+            <span>Supplier</span>
             </a>
           </div>
           <div className="nav-button">
@@ -52,7 +52,7 @@ const NavBar = () => {
               <a id="nav-footer-title" target="_blank" rel="noopener noreferrer">Settings</a>
             </div>
             <label htmlFor="nav-footer-toggle">
-              <i className="fas fa-caret-up"></i>
+              <img src={icon} alt="up_down" />
             </label>
           </div>
           <div id="nav-footer-content">
