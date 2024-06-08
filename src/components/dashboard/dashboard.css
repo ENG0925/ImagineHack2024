@@ -2,9 +2,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end; /* Align items to the right */
-  margin-left: 130px;
+  margin-left: 270px;
   column-gap: 30px;
 }
+
 .div_con {
   flex: 1;
   width: 220px;
@@ -21,4 +22,15 @@
 
 .div_rate {
   color: #48bb78;
+}
+
+@media only screen and (max-width: 768px) {
+  .div_container {
+    margin-left: 0;
+    justify-content: space-between; /* Adjust alignment for smaller screens */
+  }
+
+  .div_con {
+    margin-bottom: 20px;
+  }
 }
