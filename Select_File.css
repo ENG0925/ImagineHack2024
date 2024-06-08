@@ -131,3 +131,26 @@
         .shake {
             animation: shake 0.5s;
         }
+
+        table ,th{
+            border: 1px solid rgb(168, 168, 168);
+            border-collapse: collapse;
+            margin: auto;
+        }
+        
+        td, tr {
+            border: 1px solid rgb(75, 73, 73);
+            padding: 15px;
+            font-size: 16px;
+        }
+        
+        .modal-content {
+            width: 80%; 
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        
