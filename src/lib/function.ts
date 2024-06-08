@@ -8,3 +8,12 @@ export const OCRscan = async (image: string) => {
         console.log(err);
     }
 };
+
+export const callAI = async () => {
+    try {
+        const response = await axios.get("/api/callAI")
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
