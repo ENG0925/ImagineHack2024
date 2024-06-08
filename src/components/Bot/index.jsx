@@ -1,25 +1,34 @@
-'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import './chatbot.css';
-import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
-import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-import $ from 'jquery';
+
+export const callAI = async (msg) => {
+  try {
+    const response = await axios.post("/api/callAI", { msg });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
 
 const ChatBot = () => {
   const [index, setIndex] = useState(0);
   const [messages, setMessages] = useState([]);
   const [chatInput, setChatInput] = useState('');
+  const chatLogsRef = useRef(null);
 
-  const handleChatSubmit = (e) => {
+  const handleChatSubmit = async (e) => {
     e.preventDefault();
     const msg = chatInput.trim();
     if (msg === '') {
       return false;
     }
     generateMessage(msg, 'self');
-    setTimeout(() => {
-      generateMessage(msg, 'user');
-    }, 1000);
+    const aiResponse = await callAI(msg);
+    if (aiResponse) {
+      generateMessage(aiResponse, 'user');
+    }
   };
 
   const generateMessage = (msg, type) => {
@@ -33,40 +42,24 @@ const ChatBot = () => {
         ? "https://i.pinimg.com/564x/d9/7b/bb/d97bbb08017ac2309307f0822e63d082.jpg" 
         : "https://i.pinimg.com/564x/92/1f/55/921f557b5e21ceb73a0ccc4b16442a56.jpg"
     };
-    setMessages([...messages, message]);
+    setMessages(prevMessages => [...prevMessages, message]);
     if (type === 'self') {
       setChatInput('');
     }
-    $('.chat-logs').stop().animate({ scrollTop: $('.chat-logs')[0].scrollHeight }, 1000);
+    scrollToBottom();
   };
 
-  const generateButtonMessage = (msg, buttons) => {
-    const newIndex = index + 1;
-    setIndex(newIndex);
-    const buttonMessages = buttons.map(button => ({
-      name: button.name,
-      value: button.value
-    }));
-    const message = {
-      id: newIndex,
-      type: 'user',
-      msg,
-      avatar: "https://i.pinimg.com/564x/92/1f/55/921f557b5e21ceb73a0ccc4b16442a56.jpg",
-      buttons: buttonMessages
-    };
-    setMessages([...messages, message]);
-    $('#chat-input').attr('disabled', true);
-    $('.chat-logs').stop().animate({ scrollTop: $('.chat-logs')[0].scrollHeight }, 1000);
-  };
-
-  const handleButtonClick = (value, name) => {
-    $('#chat-input').attr('disabled', false);
-    generateMessage(name, 'self');
+  const scrollToBottom = () => {
+    if (chatLogsRef.current) {
+      chatLogsRef.current.scrollTop = chatLogsRef.current.scrollHeight;
+    }
   };
 
   const toggleChat = () => {
-    $('#chat-circle').toggle('scale');
-    $('.chat-box').toggle('scale');
+    const chatCircle = document.getElementById('chat-circle');
+    const chatBox = document.querySelector('.chat-box');
+    chatCircle.classList.toggle('scale');
+    chatBox.classList.toggle('scale');
   };
 
   return (
@@ -80,31 +73,13 @@ const ChatBot = () => {
             ChatBot
             <span className="chat-box-toggle" onClick={toggleChat}><i className="material-icons">close</i></span>
           </div>
-          <div className="chat-logs">
+          <div className="chat-logs" ref={chatLogsRef}>
             {messages.map(message => (
               <div key={message.id} id={`cm-msg-${message.id}`} className={`chat-msg ${message.type}`}>
                 <span className="msg-avatar">
                   <img src={message.avatar} alt="avatar" />
                 </span>
                 <div className="cm-msg-text">{message.msg}</div>
-                {message.buttons && (
-                  <div className="cm-msg-button">
-                    <ul>
-                      {message.buttons.map((button, idx) => (
-                        <li key={idx} className="button">
-                          <a 
-                            href="javascript:;" 
-                            className="btn btn-primary chat-btn" 
-                            chat-value={button.value}
-                            onClick={() => handleButtonClick(button.value, button.name)}
-                          >
-                            {button.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
             ))}
             <div className="chat-box-overlay"></div>
