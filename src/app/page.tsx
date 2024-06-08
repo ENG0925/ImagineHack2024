@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { callAI } from "@/lib/function";
+import NavBar from "@/components/dashboard"
 
 export default function Home() {
   const handleClick = async () => {
@@ -13,7 +14,7 @@ export default function Home() {
   
   return (
     <div>
-      <button onClick={handleClick}>Click me</button>
+      <NavBar/>
     </div>
   );
 }
