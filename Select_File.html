@@ -26,7 +26,7 @@
             </svg>
             File not accepted
         </div>
-        <img id="specialImage" src="Invoice.jpg" alt="Special Image">
+        
         <div class="button-container">
             <button id="cancelButton">Cancel</button>
             <button id="uploadButton">Upload</button>
@@ -34,25 +34,41 @@
     </div>
 
     <div id="confirmationModal" class="modal">
-    <div class="modal-content">
-        <p id="modalText">Are you sure you want to upload this file?</p>
-        <table id="fileDetailsTable">
-            <tr>
-                <td>File Name:</td>
-                <td id="fileName"></td>
-            </tr>
-            <tr>
-                <td>File Type:</td>
-                <td id="fileType"></td>
-            </tr>
-        </table>
-        <div class="modal-buttons">
-            <button id="cancelUploadButton">Cancel</button>
-            <button id="confirmUploadButton">Confirm</button>
+        <div class="modal-content">
+            <p id="modalText">Are you sure you want to upload this file?</p>
+            <table id="fileDetailsTable">
+                <tr>
+                    <th>Title</th>
+                    <th>Pricing</th>
+                    <th>Code</th>
+                </tr>
+                <tr>
+                    <td id="fileTitle"></td>
+                    <td id="filePricing"></td>
+                    <td id="fileCode"></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>Supplier Name</th>
+                    <th>Supplier Address</th>
+                    <th>Supplier Phone Number</th>
+                    <th>Supplier Email</th>
+                </tr>
+                <br>
+                <tr>
+                    <td>Supplier One</td>
+                    <td>1001 Supplier Blvd</td>
+                    <td>123-456-7890</td>
+                    <td>suppier1@example.com</td>
+                </tr>
+            </table>
+            <div class="modal-buttons">
+                <button id="cancelUploadButton">Cancel</button>
+                <button id="confirmUploadButton">Confirm</button>
+            </div>
         </div>
     </div>
-    </div>
-
 
     <script>
         document.getElementById('fileInput').addEventListener('change', function(event) {
@@ -60,7 +76,6 @@
             const errorMessage = document.getElementById('errorMessage');
             const successMessage = document.getElementById('successMessage');
             const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
-            const specialImage = document.getElementById('specialImage');
 
             if (file) {
                 errorMessage.style.display = 'none';
@@ -69,46 +84,39 @@
                 const fileType = categorizeFileType(file);
                 document.getElementById('fileCategory').textContent = `Selected file type: ${fileType}`;
 
-                if (fileType === 'JPEG Image' || fileType === 'PNG Image') {
-                    specialImage.style.display = 'block';
-                } else {
-                    specialImage.style.display = 'none';
-                }
-
                 if (fileType === 'Not accepted') {
                     displayFileNotAcceptedMessage(fileNotAcceptedMessage);
                 }
-            } else {
-                specialImage.style.display = 'none';
             }
         });
 
         document.getElementById('uploadButton').addEventListener('click', function() {
-    const fileInput = document.getElementById('fileInput');
-    const errorMessage = document.getElementById('errorMessage');
-    const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
-    const fileType = fileInput.files.length ? categorizeFileType(fileInput.files[0]) : '';
+            const fileInput = document.getElementById('fileInput');
+            const errorMessage = document.getElementById('errorMessage');
+            const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
+            const fileType = fileInput.files.length ? categorizeFileType(fileInput.files[0]) : '';
 
-    if (!fileInput.files.length) {
-        displayErrorMessage(errorMessage);
-    } else if (fileType === 'Not accepted') {
-        displayFileNotAcceptedMessage(fileNotAcceptedMessage);
-    } else {
-        // Populate file details in the modal
-        populateFileDetails(fileInput.files[0]);
+            if (!fileInput.files.length) {
+                displayErrorMessage(errorMessage);
+            } else if (fileType === 'Not accepted') {
+                displayFileNotAcceptedMessage(fileNotAcceptedMessage);
+            } else {
+                // Populate file details in the modal
+                populateFileDetails(fileInput.files[0]);
 
-        document.getElementById('confirmationModal').style.display = 'flex'; // Show modal
-    }
-});
+                document.getElementById('confirmationModal').style.display = 'flex'; // Show modal
+            }
+        });
 
-function populateFileDetails(file) {
-    const fileName = file.name;
-    const fileType = categorizeFileType(file);
+        function populateFileDetails(file) {
+            const fileName = file.name;
+            const pricing = 'RM 100';  // Static pricing for example
+            const code = 'ABC123';  // Static code for example
 
-    document.getElementById('fileName').textContent = fileName;
-    document.getElementById('fileType').textContent = fileType;
-}
-
+            document.getElementById('fileTitle').textContent = fileName;
+            document.getElementById('filePricing').textContent = pricing;
+            document.getElementById('fileCode').textContent = code;
+        }
 
         document.getElementById('confirmUploadButton').addEventListener('click', function() {
             document.getElementById('confirmationModal').style.display = 'none';
@@ -122,14 +130,12 @@ function populateFileDetails(file) {
         document.getElementById('cancelButton').addEventListener('click', function() {
             const fileInput = document.getElementById('fileInput');
             const fileCategory = document.getElementById('fileCategory');
-            const specialImage = document.getElementById('specialImage');
             const errorMessage = document.getElementById('errorMessage');
             const successMessage = document.getElementById('successMessage');
             const fileNotAcceptedMessage = document.getElementById('fileNotAcceptedMessage');
 
             fileInput.value = ''; // Clear file input
             fileCategory.textContent = 'Selected file type will be displayed here.'; // Reset file category display
-            specialImage.style.display = 'none'; // Hide special image
             errorMessage.style.display = 'none'; // Hide error message
             successMessage.style.display = 'none'; // Hide success message
             fileNotAcceptedMessage.style.display = 'none'; // Hide file not accepted message
@@ -176,15 +182,6 @@ function populateFileDetails(file) {
             }
         }
 
-        function fetchPricingAndCode() {
-            // Simulate fetching data from backend
-            const pricing = 'RM 100';
-            const code = 'ABC123';
-
-            document.getElementById('pricing').textContent = `Pricing: ${pricing}`;
-            document.getElementById('code').textContent = `Code: ${code}`;
-        }
-
         window.onload = function() {
             document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('successMessage').style.display = 'none';
@@ -192,5 +189,7 @@ function populateFileDetails(file) {
         };
     </script>
 </body>
+
+
 
 </html>
