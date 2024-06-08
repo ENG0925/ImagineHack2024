@@ -29,7 +29,7 @@ interface SupplierRequest {
 
 
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
         const { image } = await req.json();
         
@@ -85,12 +85,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 supplier: supplierData
             });
             
-            
         });
 
-        
-
   } catch (err) {
+    console.error(err);
     return NextResponse.json({ 
       success: false, 
       message: 'Error to OCR the image' 
