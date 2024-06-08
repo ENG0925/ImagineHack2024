@@ -48,7 +48,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       model: MODEL_NAME,
       prompt: { messages },
     });
-  
+    
+    console.log('data: ',result[0].candidates[0].content);
     
     const response = result[0].candidates[0].content;
             

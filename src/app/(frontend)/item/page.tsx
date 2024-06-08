@@ -28,10 +28,41 @@ const Page = () => {
         fetchData();
 
     }, []);
+
+    const handleClicked = () => {
+        console.log('clicked');
+    }
     
     return (
         <div>
-        <h1>Supplier</h1>
+            <div className="header">
+                <h2>Item List</h2>
+                
+                <button onClick={handleClicked}>
+                    <span className="plus-icon">+</span> Add New Item
+                </button>
+            </div>
+            <hr />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Item Quantity</th>
+                        <th>Item Total Item Price</th>
+                        <th>Item Unit Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.description}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.totalItemPrice}</td>
+                            <td>{item.unitPrice}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

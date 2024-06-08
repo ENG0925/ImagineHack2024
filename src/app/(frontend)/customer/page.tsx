@@ -2,7 +2,6 @@
 
 import { getCustomer } from "@/lib/function";
 import { useEffect, useState } from "react";
-import './styles.css';
 
 interface Customer {
     id: number;
@@ -17,7 +16,9 @@ const Page = () => {
         const fetchData = async () => {
             try {
                 const response = await getCustomer();
-                setData(response?.data.data);
+                if (response?.data?.data) {
+                    setData(response.data.data);
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -26,33 +27,32 @@ const Page = () => {
         fetchData();
     }, []);
 
+    const handleClicked = () => {
+        console.log('clicked');
+    }
+
     return (
         <div>
             <div className="header">
-                <h2>Invoice List</h2>
-                <a href="testFile.html" className="button-link">
-                    <button id="InvoiceList">
-                        <span className="plus-icon">+</span> Add New Invoice
-                    </button>
-                </a>
+                <h2>Customer List</h2>
+                
+                <button onClick={handleClicked}>
+                    <span className="plus-icon">+</span> Add New Customer
+                </button>
             </div>
             <hr />
             <table>
                 <thead>
                     <tr>
-                        <th>Supplier Name</th>
-                        <th>Supplier Address</th>
-                        <th>Supplier Phone Number</th>
-                        <th>Supplier Email</th>
+                        <th>Customer Name</th>
+                        <th>Customer Address</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((customer) => (
-                        <tr key={customer.id}>
-                            <td>{customer.customerName}</td>
-                            <td>{customer.customerAddress}</td>
-                            <td>123-456-7890</td> {/* Placeholder phone number */}
-                            <td>supplier@example.com</td> {/* Placeholder email */}
+                    {data.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.customerName}</td>
+                            <td>{item.customerAddress}</td>
                         </tr>
                     ))}
                 </tbody>

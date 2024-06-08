@@ -56,17 +56,12 @@ const UploadImage = () => {
             <p id="fileCategory">{fileCategory}</p>
             {errorMessage && (
                 <div id="errorMessage" className="message">
-                    <svg className="error-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                    </svg>
                     {errorMessage}
                 </div>
             )}
             {successMessage && (
                 <div id="successMessage" className="message">
-                    <svg className="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
-                    </svg>
+                    
                     {successMessage}
                 </div>
             )}

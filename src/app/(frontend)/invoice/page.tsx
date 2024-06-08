@@ -28,10 +28,41 @@ const Page = () => {
         fetchData();
 
     }, []);
+
+    const handleClicked = () => {
+        console.log('clicked');
+    }
     
     return (
         <div>
-        <h1>Supplier</h1>
+            <div className="header">
+                <h2>Invoice List</h2>
+                
+                <button onClick={handleClicked}>
+                    <span className="plus-icon">+</span> Add New Invoice
+                </button>
+            </div>
+            <hr />
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Invoice Purchase Date</th>
+                        <th>Invoice Total Amount</th>
+                        <th>Invoice Total Tax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((item) => (
+                        <tr key={item.invoiceNumber}>
+                            <td>{item.invoiceNumber}</td>
+                            <td>{item.purchaseDate}</td>
+                            <td>{item.totalAmount}</td>
+                            <td>{item.totalTax}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
