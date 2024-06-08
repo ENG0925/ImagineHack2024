@@ -30,17 +30,17 @@ const NavBar = () => {
           </div>
           <div className="nav-button">
             <a href="supplier.html">
-              <i className="fa-solid fa-box"></i><span>Supplier</span>
+             <span>Supplier</span>
             </a>
           </div>
           <div className="nav-button">
             <a href="invoice.html">
-              <i className="fa-solid fa-file-invoice"></i><span>Invoice</span>
+              <span>Invoice</span>
             </a>
           </div>
           <div className="nav-button">
             <a href="supplier.html">
-              <i className="fa-solid fa-boxes-stacked"></i><span>Items</span>
+              <span>Items</span>
             </a>
           </div>
         </div>
@@ -56,9 +56,9 @@ const NavBar = () => {
             </label>
           </div>
           <div id="nav-footer-content">
-            <div className="nav-button"><span className="fas fa-cog">Settings</span></div>
-            <div className="nav-button"><i className="fas fa-user"></i><span>Profile</span></div>
-            <div className="nav-button"><i className="fas fa-sign-out-alt"></i><span>Logout</span></div>
+            <div className="nav-button"><span>Settings</span></div>
+            <div className="nav-button"><span>Profile</span></div>
+            <div className="nav-button"><span>Logout</span></div>
           </div>
         </div>
       </div>
