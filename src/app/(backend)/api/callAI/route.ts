@@ -40,7 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       'Item:invoiceNumber'
     ];
       
-    const giveAImsg = `${queryInvoice} and ${queryItem} this data about ${element} base on the provided data analysis and answer the question generate a report: ${msg}`
+    const giveAImsg = `${queryInvoice} and ${queryItem} this data about ${element} base on the provided data analysis and answer the question: ${msg}`
 
     const messages = [{ content: giveAImsg }];
 
