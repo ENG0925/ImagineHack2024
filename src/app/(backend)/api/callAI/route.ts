@@ -1,30 +1,32 @@
 import { NextResponse, NextRequest } from "next/server";
-import { exec } from 'child_process';
-import { title } from "process";
+import { DiscussServiceClient } from "@google-ai/generativelanguage";
+import { GoogleAuth } from "google-auth-library";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+// model name and api key
+const MODEL_NAME: string = "models/chat-bison-001";
+const API_KEY: string = "AIzaSyAqhmBn0nVW1LhRhjgQiZcKBDQve4BLIBg";
+
+const client = new DiscussServiceClient({
+  authClient: new GoogleAuth().fromAPIKey(API_KEY),
+});
+
+export async function POST(req: NextRequest, res: NextResponse) {
   try {
-        const scriptPath = 'C:/Users/User/Documents/ImagineHack2024/src/app/(backend)/api/predict.py'; 
-        const pythonCommand = `python ${scriptPath}`;
     
-        exec(pythonCommand, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error.message}`);
-            return;
-        }
-    
-        if (stderr) {
-            console.error(`Stderr: ${stderr}`);
-            return;
-        }
-    
-        console.log(`Output: ${stdout}`);
-        });
+    const { msg } = await req.json();
+    const messages = [{ content: msg }];
+
+    const result : any = await client.generateMessage({
+      model: MODEL_NAME,
+      prompt: { messages },
+    });
+  
+    console.log("Palm:\n\n", result[0].candidates[0].content, "\n\n");
             
-        return NextResponse.json({ 
-            success: true, 
-            message: 'successfully OCR the image'
-        });
+    return NextResponse.json({ 
+        success: true, 
+        message: 'successfully OCR the image'
+    });
   } catch (err) {
     return NextResponse.json({ 
       success: false, 

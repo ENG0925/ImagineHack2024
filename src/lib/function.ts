@@ -9,9 +9,9 @@ export const OCRscan = async (image: string) => {
     }
 };
 
-export const callAI = async () => {
+export const callAI = async (msg: string) => {
     try {
-        const response = await axios.get("/api/callAI")
+        const response = await axios.post("/api/callAI", { msg })
         return response;
     } catch (err) {
         console.log(err);
