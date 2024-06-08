@@ -51,19 +51,19 @@
   </div>
 
   <div class="chat-box">
-    <div class="chat-box-header">
-      ChatBot
-    <span class="chat-box-toggle"><i class="material-icons">close</i></span>
-    </div>
     <div class="chat-box-body">
-      <div class="chat-box-overlay"></div>
-      <div class="chat-logs"></div><!-- chat-log -->
-    </div>
-    <div class="chat-input">
-      <form>
-      <input type="text" id="chat-input" placeholder="Send a message..."/>
-      <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>
-      </form>      
+      <div class="chat-box-header">
+        ChatBot
+        <span class="chat-box-toggle"><i class="material-icons">close</i></span>
+      </div>
+      
+      <div class="chat-logs"><div class="chat-box-overlay"></div></div><!-- chat-log -->
+      <div class="chat-input">
+        <form>
+          <input type="text" id="chat-input" placeholder="Send a message..."/>
+          <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -88,17 +88,17 @@
               INDEX++;
               var str = "";
               str += "<div id='cm-msg-" + INDEX + "' class=\"chat-msg " + type + "\">";
-              str += "          <span class=\"msg-avatar\">";
+              str += "<span class=\"msg-avatar\">";
               if(type == 'self') {
-                  str += "            <img src=\"https://i.pinimg.com/564x/d9/7b/bb/d97bbb08017ac2309307f0822e63d082.jpg\">"; // User image
+                  str += "<img src=\"https://i.pinimg.com/564x/d9/7b/bb/d97bbb08017ac2309307f0822e63d082.jpg\">"; // User image
               } else {
-                  str += "            <img src=\"https://i.pinimg.com/564x/92/1f/55/921f557b5e21ceb73a0ccc4b16442a56.jpg\">"; // Bot image
+                  str += "<img src=\"https://i.pinimg.com/564x/92/1f/55/921f557b5e21ceb73a0ccc4b16442a56.jpg\">"; // Bot image
               }
-              str += "          <\/span>";
-              str += "          <div class=\"cm-msg-text\">";
+              str += "<\/span>";
+              str += "<div class=\"cm-msg-text\">";
               str += msg;
-              str += "          <\/div>";
-              str += "        <\/div>";
+              str += "<\/div>";
+              str += "<\/div>";
               $(".chat-logs").append(str);
               $("#cm-msg-" + INDEX).hide().fadeIn(300);
               if (type == 'self') {
@@ -114,18 +114,18 @@
               }).join('');
               var str = "";
               str += "<div id='cm-msg-" + INDEX + "' class=\"chat-msg user\">";
-              str += "          <span class=\"msg-avatar\">";
-              str += "            <img src=\"https://i.pinimg.com/564x/92/1f/55/921f557b5e21ceb73a0ccc4b16442a56.jpg\">";
-              str += "          <\/span>";
-              str += "          <div class=\"cm-msg-text\">";
+              str += "<span class=\"msg-avatar\">";
+              str += "<img src=\"https://i.pinimg.com/564x/92/1f/55/921f557b5e21ceb73a0ccc4b16442a56.jpg\">";
+              str += "<\/span>";
+              str += "<div class=\"cm-msg-text\">";
               str += msg;
-              str += "          <\/div>";
-              str += "          <div class=\"cm-msg-button\">";
-              str += "            <ul>";
+              str += "<\/div>";
+              str += "<div class=\"cm-msg-button\">";
+              str += "<ul>";
               str += btn_obj;
-              str += "            <\/ul>";
-              str += "          <\/div>";
-              str += "        <\/div>";
+              str += "<\/ul>";
+              str += "<\/div>";
+              str += "<\/div>";
               $(".chat-logs").append(str);
               $("#cm-msg-" + INDEX).hide().fadeIn(300);
               $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, 1000);
