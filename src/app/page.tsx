@@ -9,7 +9,7 @@ const ApexChart = () => {
   const [state, setState] = useState({
     series: [{
       name: 'Inflation',
-      data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+      data: [2.3, 3.1, 4.0, 4.0, 3.6, 3.2, 2.3, 6.4, 2.8, 3.5, 2.0, 10.1]
     }],
     options: {
       chart: {
@@ -75,7 +75,7 @@ const ApexChart = () => {
         }
       },
       title: {
-        text: 'Monthly Inflation in Argentina, 2002',
+        text: 'Monthly Sales Report 2024',
         floating: true,
         offsetY: 330,
         align: 'center',
