@@ -32,12 +32,12 @@ interface SupplierRequest {
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-        const { image } = await req.json();
+        
         const connection = await mysql.createConnection(DBConfig);
         const mindeeClient = new mindee.Client({ apiKey: "1e9b7fe0c78748caae5857fecbd5e303" });
 
         // Load a file from disk
-        const inputSource = mindeeClient.docFromPath(`C:/Users/User/Documents/ImagineHack2024/src/image/${image}`);
+        const inputSource = mindeeClient.docFromPath(`C:/Users/User/Documents/ImagineHack2024/src/image/profound inv 2402-0001.pdf`);
 
         // Parse the file
         const apiResponse : any = mindeeClient.parse(

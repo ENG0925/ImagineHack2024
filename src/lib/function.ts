@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const OCRscan = async (image: string) => {
+export const OCRscan = async () => {
     try {
-        const response = await axios.post("/api/invoiceOCR", { image })
+        const response = await axios.get("/api/invoiceOCR")
         return response;
     } catch (err) {
         console.log(err);
@@ -54,11 +54,11 @@ export const getCustomer = async () => {
     }
 }
 
-export const writeFileFunction = async (file: File, fileName: string) => {
-    try {
-        const response = await axios.get("/api/writeFile", { file, fileName })
-        return response;
-    } catch (err) {
-        console.log(err);
-    }
-};
+// export const writeFileFunction = async (file: File, fileName: string) => {
+//     try {
+//         const response = await axios.get("/api/writeFile", { file, fileName })
+//         return response;
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };

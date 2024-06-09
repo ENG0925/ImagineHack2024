@@ -1,26 +1,34 @@
 import { NextResponse } from 'next/server';
 import formidable from 'formidable';
-import path from "path";
-import fs from "fs";
-
-const express = require('express');
-const app = express();
-const multer = require('multer');
 
 export async function POST(req) {
   try {
-    
-    const { fileData } = await req.json();
+    // Create an instance of formidable
+    const form = new formidable.IncomingForm({
+      uploadDir: 'C:/Users/User/Documents/ImagineHack2024/src/image/',
+      keepExtensions: true,
+      maxFileSize: 5 * 1024 * 1024, // 5 MB
+      filename: (name, ext, part, form) => {
+        // Generate a unique filename
+        return `${Date.now()}-${part.originalFilename}`;
+      }
+    });
 
-    
-
-    const folder = 'C:/Users/User/Documents/ImagineHack2024/src/image/';
+    // Parse the incoming form with file data
+    await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err);
+        }
+        resolve({ fields, files });
+      });
+    });
 
     return NextResponse.json({
-      success: false,
-      message: 'Error handling the request'
+      success: true,
+      message: 'File uploaded successfully'
     });
- 
+
   } catch (err) {
     console.error('Error handling the request:', err);
     return NextResponse.json({
@@ -32,6 +40,6 @@ export async function POST(req) {
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // Disable Next.js default body parsing
   },
 };
