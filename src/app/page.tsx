@@ -1,12 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
+import ReactApexChart from 'react-apexcharts';
 import { callAI } from "@/lib/function";
 import NavBar from "@/components/dashboard";
-
-// Dynamically import ReactApexChart with no SSR
-const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const ApexChart = () => {
   const [state, setState] = useState({
@@ -30,7 +27,7 @@ const ApexChart = () => {
       dataLabels: {
         enabled: true,
         formatter: function (val) {
-          return val.toString() + "%"; // Ensuring val is converted to string
+          return val + "%";
         },
         offsetY: -20,
         style: {
@@ -73,7 +70,7 @@ const ApexChart = () => {
         labels: {
           show: false,
           formatter: function (val) {
-            return val.toString() + "%"; // Ensuring val is converted to string
+            return val + "%";
           }
         }
       },
@@ -90,9 +87,9 @@ const ApexChart = () => {
   });
 
   return (
-    <div style={{ width: '80%', margin: '6% 20%' }}>
+    <div style={{ width: '80%', margin: '7% 20% ' }}>
       <div id="chart">
-        <ReactApexChart options={state.options} series={state.series} type="bar" height={350}  />
+        <ReactApexChart options={state.options} series={state.series} type="bar" height={350} />
       </div>
       <div id="html-dist"></div>
     </div>
