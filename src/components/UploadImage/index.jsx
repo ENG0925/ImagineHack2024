@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const UploadImage = () => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [fileCategory, setFileCategory] = useState("Selected file type will be displayed here.");
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
@@ -12,7 +12,7 @@ const UploadImage = () => {
 
     const allowedFileTypes = ["image/jpeg", "image/png", "application/pdf"];
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (event) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
             if (allowedFileTypes.includes(file.type)) {
@@ -33,22 +33,28 @@ const UploadImage = () => {
 
     const handleUploadClick = async () => {
         if (selectedFile) {
+            setErrorMessage("");
+            setSuccessMessage("");
+            setConfirmationVisible(true);
+
             const formData = new FormData();
             formData.append('file', selectedFile);
 
             try {
-                const response = await axios.post('http://localhost:5000/upload', formData, {
+                const response = await axios.post('/api/writeFile', formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
+                        'Content-Type': 'multipart/form-data',
+                    },
                 });
+
                 if (response.status === 200) {
                     setSuccessMessage("File uploaded successfully!");
-                    setErrorMessage("");
+                } else {
+                    setErrorMessage("Failed to upload file.");
                 }
             } catch (error) {
-                setErrorMessage("File upload failed. Please try again.");
-                setSuccessMessage("");
+                console.error('Error uploading file:', error);
+                setErrorMessage("Error uploading file.");
             }
         } else {
             setErrorMessage("No file selected");
